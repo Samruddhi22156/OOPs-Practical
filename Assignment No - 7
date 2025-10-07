@@ -1,0 +1,57 @@
+import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+public class dotdrawing extends Frame {
+
+    public dotdrawing() {
+        setTitle("Single Dot using DDA");
+        setSize(400, 300);
+        setVisible(true);
+
+        // Exit on close
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
+    }
+
+    // DDA algorithm to calculate and draw a single dot (e.g., at the middle of the line)
+    private void drawSingleDotUsingDDA(Graphics g, int x1, int y1, int x2, int y2) {
+        float dx = x2 - x1;
+        float dy = y2 - y1;
+
+        float steps = Math.max(Math.abs(dx), Math.abs(dy));
+
+        float xIncrement = dx / steps;
+        float yIncrement = dy / steps;
+
+        float x = x1;
+        float y = y1;
+
+        int middleStep = Math.round(steps / 2);
+
+        for (int i = 0; i <= steps; i++) {
+            if (i == middleStep) {
+                // Draw a single dot (1x1 pixel)
+                g.fillRect(Math.round(x), Math.round(y), 1, 1);
+                break; // Stop after drawing one dot
+            }
+            x += xIncrement;
+            y += yIncrement;
+        }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        g.setColor(Color.RED);
+
+        // Draw only a single dot between two points using DDA
+        drawSingleDotUsingDDA(g, 50, 50, 250, 150); // You can change the points
+    }
+
+    public static void main(String[] args) {
+        new dotdrawing();
+    }
+}
